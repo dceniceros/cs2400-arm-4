@@ -16,12 +16,20 @@
 		;       2. (30 extra points) For extending the program to counting the ones
 		;          in any word-aligned contiguous region of memory.
 
-example	DCD 0x0010070f
-numones FILL 4
-		MOV r1, #0x0
-		MOV r2, #32
-Count	MOVS DCD, DCD, ROR #1
-		ADDCS r1, r1, #1
-		SUBS r2, r2, #1
-		BNE Count
+		LDR	    r0, =example
+		LDR	    r2, [r0]
+
+Count
+		mov	    r1, r2
+		sub	    r2, r2, #1
+		add	    r3, r3, #1
+		and	    r2, r2, r1
+		CMP	    r2, #0
+		BNE	    Count
+		LDR	    r0, =numones
+		STR	    r3, [r0]
+		END
+
+example	DCD	    0x0010070f
+numones	FILL	4
 
